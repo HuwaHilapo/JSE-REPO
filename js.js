@@ -1,95 +1,43 @@
-class Calculator{
-    constructor(previousTextelement, currentTextelement){
-        this.previousTextelement = previousTextelement
-        this.currentTextelement = currentTextelement
-        this.clear()
-    }
-    clear(){
-        this.prev = 'Rate our waiter:'
-        this.cur = ''
-        this.operation = undefined
-    }
-    delete(){
-        this.cur = this.cur.toString().slice(0, -1)
-    }
-    chooseOperation(operation){
-        if(this.operation !== ''){
-            this.compute()
-        }
-        if(operation== 'Excellent'){
-            operation = '^'
-        }
-        if(operation== 'Good'){
-            operation = '!'
-        }
-        if(operation== 'Fair'){
-            operation = '1'
-        }
-        this.prev = 'Total Cost: ' + this.cur.toString()
-        this.operation = operation
-        this.cur= ''
-    }
-    compute(){
-        let computation
-        const prev = parseFloat(this.prev)
-        const cur = parseFloat(this.cur)
-        switch(this.operation){
-            case '^': computation = .15 * cur
-            break
-            case '1': computation = .05 * cur
-            break
-            case '!': computation = .10 * cur
-            break
-            default:
-                return
-        }
-        this.cur = computation
-        this.prev = ''
-        this.operation = undefined
-    }
-    appendnum(number){
-        if(this.cur.includes('.') && number === '.') return
-        this.cur = this.cur.toString() + number.toString()
-    }
-    updateDisplay(){
-        this.currentTextelement.innerText = this.cur
-        this.previousTextelement.innerText = this.prev
-    }
+let menu = document.querySelector('#menu-bar');
+let navbar = document.querySelector('.navbar');
+
+menu.onclick =() =>{
+    menu.classList.toggle('fa-times');
+    navbar.classList.toggle('active');
 }
-const numbuttons = document.querySelectorAll('[data-number]')
-const delbutton = document.querySelector('[data-del]')
-const opebuttons = document.querySelectorAll('[data-operation]')
-const cebutton = document.querySelector('[data-ce]')
-const eqbutton = document.querySelector('[data-equal]')
-const previousTextelement = document.querySelector('[data-prev]')
-const currentTextelement = document.querySelector('[data-cur]')
-const calculator = new Calculator(previousTextelement, currentTextelement)
 
-numbuttons.forEach(button => {
-    button.addEventListener('click', () => {
-        calculator.appendnum(button.innerText)
-        calculator.updateDisplay()
-    })
-})
+let slides = document.querySelectorAll('.slide-container');
+let index = 0;
 
-opebuttons.forEach(button => {
-    button.addEventListener('click', () => {
-        calculator.chooseOperation(button.innerText)
-        calculator.updateDisplay()
-    })
-})
+function next(){
+    slides[index].classList.remove('active');
+    index = (index + 1) % slides.length;
+    slides[index].classList.add('active');
+}
 
-delbutton.addEventListener('click', () =>{
-    calculator.clear()
-    calculator.updateDisplay()
-})
-eqbutton.addEventListener('click', () =>{
-    calculator.compute()
-    calculator.updateDisplay()
-})
-cebutton.addEventListener('click', () =>{
-    calculator.delete()
-    calculator.updateDisplay()
-})
+function prev(){
+    slides[index].classList.remove('active');
+    index = (index - 1 + slides.length) % slides.length;
+    slides[index].classList.add('active');
+}
 
- 
+document.querySelectorAll('.featured-image-1').forEach(image_1 =>{
+    image_1.addEventListener('click', () =>{
+        var src = image_1.getAttribute('src');
+        document.querySelector('.big-image-1').src = src;
+    });
+});
+
+document.querySelectorAll('.featured-image-2').forEach(image_2 =>{
+    image_2.addEventListener('click', () =>{
+        var src = image_2.getAttribute('src');
+        document.querySelector('.big-image-2').src = src;
+    });
+});
+
+document.querySelectorAll('.featured-image-3').forEach(image_3 =>{
+    image_3.addEventListener('click', () =>{
+        var src = image_3.getAttribute('src');
+        document.querySelector('.big-image-3').src = src;
+    });
+});
